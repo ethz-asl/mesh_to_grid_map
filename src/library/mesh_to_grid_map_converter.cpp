@@ -16,7 +16,8 @@ MeshToGridMapConverter::MeshToGridMapConverter(ros::NodeHandle nh,
       nh_private_(nh_private),
       grid_map_resolution_(kDefaultGridMapResolution),
       layer_name_(kDefaultLayerName),
-      latch_grid_map_pub_(kDefaultLatchGridMapPub) {
+      latch_grid_map_pub_(kDefaultLatchGridMapPub),
+      verbose_(kDefaultVerbose) {
   // Initial interaction with ROS
   subscribeToTopics();
   advertiseTopics();
@@ -39,16 +40,18 @@ void MeshToGridMapConverter::getParametersFromRos() {
   nh_private_.param("layer_name", layer_name_, layer_name_);
   nh_private_.param("latch_grid_map_pub", latch_grid_map_pub_,
                     latch_grid_map_pub_);
+  nh_private_.param("verbose", verbose_, verbose_);
 }
 
 void MeshToGridMapConverter::meshCallback(
     const pcl_msgs::PolygonMesh& mesh_msg) {
-  ROS_INFO("Mesh received, starting conversion.");
+  if (verbose_) {
+    ROS_INFO("Mesh received, starting conversion.");
+  }
 
   // Converting from message to an object
   pcl::PolygonMesh polygon_mesh;
   pcl_conversions::toPCL(mesh_msg, polygon_mesh);
-  ROS_INFO_STREAM("Number of polygons: " << polygon_mesh.polygons.size());
 
   // Creating the grid map
   grid_map::GridMap map;
@@ -61,10 +64,13 @@ void MeshToGridMapConverter::meshCallback(
   const std::string layer_name(layer_name_);
   grid_map_pcl_converter.addLayerFromPolygonMesh(polygon_mesh, layer_name, map);
 
-  // Printing some debug info about the map
-  ROS_INFO("Created map with size %f x %f m (%i x %i cells).",
-           map.getLength().x(), map.getLength().y(), map.getSize()(0),
-           map.getSize()(1));
+  // Printing some debug info about the mesh and the map
+  if (verbose_) {
+    ROS_INFO_STREAM("Number of polygons: " << polygon_mesh.polygons.size());
+    ROS_INFO("Created map with size %f x %f m (%i x %i cells).",
+             map.getLength().x(), map.getLength().y(), map.getSize()(0),
+             map.getSize()(1));
+  }
 
   // Publish grid map.
   map.setTimestamp(mesh_msg.header.stamp.toNSec());
@@ -73,7 +79,9 @@ void MeshToGridMapConverter::meshCallback(
 
   // Publishing the grid map message.
   grid_map_pub_.publish(message);
-  ROS_INFO("Published a grid map message.");
+  if (verbose_) {
+    ROS_INFO("Published a grid map message.");
+  }
 }
 
 }  // namespace mesh_to_grid_map

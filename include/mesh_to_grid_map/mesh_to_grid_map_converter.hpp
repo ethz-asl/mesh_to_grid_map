@@ -13,6 +13,7 @@ namespace mesh_to_grid_map {
 constexpr double kDefaultGridMapResolution = 0.05;
 static const std::string kDefaultLayerName = "elevation";
 constexpr bool kDefaultLatchGridMapPub = true;
+constexpr bool kDefaultVerbose = false;
 
 class MeshToGridMapConverter {
 
@@ -44,6 +45,7 @@ private:
 
   // Control Parameters
   bool latch_grid_map_pub_;
+  bool verbose_;
 
 };
 

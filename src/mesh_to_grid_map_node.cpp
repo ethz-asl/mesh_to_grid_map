@@ -1,6 +1,6 @@
 #include <ros/ros.h>
 
-#include <mesh_to_grid_map/mesh_to_grid_map_converter.hpp>
+#include "mesh_to_grid_map/mesh_to_grid_map_converter.hpp"
 
 // Standard C++ entry point
 int main(int argc, char **argv) {
