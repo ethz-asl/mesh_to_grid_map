@@ -138,7 +138,7 @@ void MeshToGridMapConverter::rectangleLocationsCallback(
       pose_msg.pose = rectangle_marker.pose;
       rectangle_image_subs_.emplace_back(nh_.subscribe(
           std::string("rectangle_image_") +
-              std::to_string(rectangle_locations_vector_.size()),
+              std::to_string(rectangle_marker.id/2),
           10, &MeshToGridMapConverter::rectangleImagesCallback, this));
       rectangle_locations_vector_.push_back(pose_msg);
     }
