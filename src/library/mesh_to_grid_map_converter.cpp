@@ -159,10 +159,12 @@ void MeshToGridMapConverter::rectangleImagesCallback(
 bool MeshToGridMapConverter::saveMapDataCallback(
     std_srvs::Empty::Request& request, std_srvs::Empty::Response& response) {
   // Check all the information exists
-  if (!grid_map_ptr_ || !mesh_ptr_ ||
-      rectangle_images_vector_.size() != rectangle_locations_vector_.size()) {
+  if (!grid_map_ptr_ || !mesh_ptr_) {
     ROS_ERROR("Still waiting on map data to save.");
     return false;
+  }
+  if(rectangle_images_vector_.size() != rectangle_locations_vector_.size()){
+    ROS_WARN("Skipping some images, as topics are emtpy");
   }
   if (!goal_pose_ptr_ || rectangle_locations_vector_.size() == 0) {
     ROS_WARN(
@@ -189,10 +191,15 @@ bool MeshToGridMapConverter::saveData() {
     for (size_t i = 0; i < rectangle_locations_vector_.size(); ++i) {
       bag.write(rosbag_rectangle_locations_topic_name_ + std::to_string(i),
                 time, rectangle_locations_vector_[i]);
+    }
+    for (size_t i = 0; i < rectangle_images_vector_.size(); ++i) {
       bag.write(rosbag_rectangle_images_topic_name_ + std::to_string(i), time,
                 rectangle_images_vector_[i]);
     }
     bag.write(rosbag_grid_map_topic_name_, time, grid_map_msg);
+    if(goal_pose_ptr_){
+      bag.write(rosbag_goal_pose_topic_name_, time, *goal_pose_ptr_);
+    }
     bag.close();
 
   } else {
