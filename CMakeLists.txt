@@ -6,16 +6,21 @@ project(mesh_to_grid_map)
 ## enforcing cleaner code.
 add_definitions(-std=c++11 -Wall -Werror)
 
+## Package Dependencies
+set(PACKAGE_DEPENDENCIES
+  cmake_modules
+  grid_map_core
+  grid_map_msgs
+  grid_map_pcl
+  grid_map_ros
+  pcl_ros
+  roscpp
+)
+
 ## Find catkin macros and libraries
 find_package(catkin REQUIRED
   COMPONENTS
-    cmake_modules
-    grid_map_core
-    grid_map_msgs
-    grid_map_pcl
-    grid_map_ros
-    pcl_ros
-    roscpp
+    ${PACKAGE_DEPENDENCIES}
 )
 
 ## Find system libraries
@@ -36,13 +41,7 @@ catkin_package(
       ${EIGEN3_INCLUDE_DIR}
   #LIBRARIES
   CATKIN_DEPENDS
-    cmake_modules
-    grid_map_core
-    grid_map_msgs
-    grid_map_pcl
-    grid_map_ros
-    pcl_ros
-    roscpp
+    ${PACKAGE_DEPENDENCIES}
   #DEPENDS system_lib
 )
 
