@@ -12,15 +12,15 @@
 
   <!-- Dependencies which this package needs to build itself. -->
   <buildtool_depend>catkin</buildtool_depend>
-  <buildtool_depend>catkin_simple</buildtool_depend>
 
   <!-- Dependencies. -->
-  <depend>roscpp</depend>
+  <depend>eigen</depend>
   <depend>cmake_modules</depend>
-  <depend>pcl_ros</depend>
   <depend>grid_map_core</depend>
-  <depend>grid_map_pcl</depend>
   <depend>grid_map_msgs</depend>
+  <depend>grid_map_pcl</depend>
   <depend>grid_map_ros</depend>
+  <depend>pcl_ros</depend>
+  <depend>roscpp</depend>
 
 </package>

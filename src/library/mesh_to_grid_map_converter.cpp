@@ -16,9 +16,9 @@ MeshToGridMapConverter::MeshToGridMapConverter(ros::NodeHandle nh,
       grid_map_resolution_(kDefaultGridMapResolution),
       layer_name_(kDefaultLayerName),
       latch_grid_map_pub_(kDefaultLatchGridMapPub),
+      verbose_(kDefaultVerbose),
       save_to_rosbag_on_publish_(kDefaultSaveToRosBagOnPublish),
-      rosbag_topic_name_(kDefaultRosbagTopicName),
-      verbose_(kDefaultVerbose) {
+      rosbag_topic_name_(kDefaultRosbagTopicName) {
   // Initial interaction with ROS
   subscribeToTopics();
   advertiseTopics();
