@@ -7,11 +7,11 @@
 #include <std_srvs/Empty.h>
 
 #include <pcl/PolygonMesh.h>
-#include <pcl_ros/point_cloud.h>
 #include <pcl_msgs/PolygonMesh.h>
+#include <pcl_ros/point_cloud.h>
 
-#include <grid_map_core/GridMap.hpp>
 #include <grid_map_msgs/ProcessFile.h>
+#include <grid_map_core/GridMap.hpp>
 
 namespace mesh_to_grid_map {
 
@@ -26,11 +26,10 @@ static const std::string kDefaultMeshToLoadFileNamePLY = "mesh.ply";
 static const std::string kDefaultFrameIdMeshLoaded = "map";
 
 class MeshToGridMapConverter {
-
-public:
+ public:
   MeshToGridMapConverter(ros::NodeHandle nh, ros::NodeHandle nh_private);
 
-private:
+ private:
   // Initial interactions with ROS
   void subscribeToTopics();
   void advertiseTopics();
@@ -48,14 +47,15 @@ private:
   bool loadMeshOnStartup();
 
   // Load mesh, service call
-  bool loadMeshService(grid_map_msgs::ProcessFile::Request  &req,
-                       grid_map_msgs::ProcessFile::Response &res);
+  bool loadMeshService(grid_map_msgs::ProcessFile::Request& req,
+                       grid_map_msgs::ProcessFile::Response& res);
 
   // Load mesh from file
   bool loadMeshFromFile(const std::string& path_to_mesh_to_load);
 
   // Converts a mesh to grid map and stores the result
-  bool meshToGridMap(const pcl::PolygonMesh &polygon_mesh, const std::string &mesh_frame_id,
+  bool meshToGridMap(const pcl::PolygonMesh& polygon_mesh,
+                     const std::string& mesh_frame_id,
                      const uint64_t& time_stamp_nano_seconds);
 
   // Saves the grid map
@@ -96,9 +96,8 @@ private:
   std::string mesh_to_load_file_path_;
   std::string mesh_to_load_file_name_;
   std::string frame_id_mesh_loaded_;
-
 };
 
-} // namespace mesh_to_grid_map
+}  // namespace mesh_to_grid_map
 
 #endif

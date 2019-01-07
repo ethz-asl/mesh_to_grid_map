@@ -21,9 +21,9 @@ MeshToGridMapConverter::MeshToGridMapConverter(ros::NodeHandle nh,
       verbose_(kDefaultVerbose),
       save_to_rosbag_on_publish_(kDefaultSaveToRosBagOnPublish),
       rosbag_topic_name_(kDefaultRosbagTopicName),
-      load_mesh_on_startup_ (kDefaultLoadMeshOnStartup),
-      mesh_to_load_file_name_ (kDefaultMeshToLoadFileNamePLY),
-      frame_id_mesh_loaded_ (kDefaultFrameIdMeshLoaded) {
+      load_mesh_on_startup_(kDefaultLoadMeshOnStartup),
+      mesh_to_load_file_name_(kDefaultMeshToLoadFileNamePLY),
+      frame_id_mesh_loaded_(kDefaultFrameIdMeshLoaded) {
   // Initial interaction with ROS
   subscribeToTopics();
   advertiseTopics();
@@ -47,8 +47,8 @@ void MeshToGridMapConverter::advertiseTopics() {
 void MeshToGridMapConverter::advertiseServices() {
   save_grid_map_srv_ = nh_private_.advertiseService(
       "save_grid_map", &MeshToGridMapConverter::saveGridMapCallback, this);
-  load_map_service_server_ = nh_private_.advertiseService("load_mesh_from_file",
-      &MeshToGridMapConverter::loadMeshService, this);
+  load_map_service_server_ = nh_private_.advertiseService(
+      "load_mesh_from_file", &MeshToGridMapConverter::loadMeshService, this);
 }
 
 void MeshToGridMapConverter::getParametersFromRos() {
@@ -82,11 +82,13 @@ void MeshToGridMapConverter::meshCallback(
   // Converting from message to an object
   pcl::PolygonMesh polygon_mesh;
   pcl_conversions::toPCL(mesh_msg, polygon_mesh);
-  meshToGridMap(polygon_mesh, mesh_msg.header.frame_id, mesh_msg.header.stamp.toNSec());
+  meshToGridMap(polygon_mesh, mesh_msg.header.frame_id,
+                mesh_msg.header.stamp.toNSec());
 }
 
-bool MeshToGridMapConverter::meshToGridMap(const pcl::PolygonMesh &polygon_mesh, const std::string &mesh_frame_id,
-                                           const uint64_t& time_stamp_nano_seconds) {
+bool MeshToGridMapConverter::meshToGridMap(
+    const pcl::PolygonMesh& polygon_mesh, const std::string& mesh_frame_id,
+    const uint64_t& time_stamp_nano_seconds) {
   // Creating the grid map
   grid_map::GridMap map;
   map.setFrameId(mesh_frame_id);
@@ -162,39 +164,44 @@ bool MeshToGridMapConverter::loadMeshOnStartup() {
     return loadMeshFromFile(mesh_to_load_file_path_ + mesh_to_load_file_name_);
   }
 
-  ROS_ERROR("No mesh file path specified (as ros param \"mesh_to_load_file_path\"");
+  ROS_ERROR(
+      "No mesh file path specified (as ros param \"mesh_to_load_file_path\"");
   return false;
 }
 
-bool MeshToGridMapConverter::loadMeshService(grid_map_msgs::ProcessFile::Request &req,
-                                             grid_map_msgs::ProcessFile::Response &res) {
+bool MeshToGridMapConverter::loadMeshService(
+    grid_map_msgs::ProcessFile::Request& req,
+    grid_map_msgs::ProcessFile::Response& res) {
   res.success = loadMeshFromFile(req.file_path);
   return true;
 }
 
-bool MeshToGridMapConverter::loadMeshFromFile(const std::string& path_to_mesh_to_load) {
+bool MeshToGridMapConverter::loadMeshFromFile(
+    const std::string& path_to_mesh_to_load) {
   if (path_to_mesh_to_load.empty()) {
-    ROS_ERROR("File path for mesh to load is empy. Please specify a valid path.");
+    ROS_ERROR(
+        "File path for mesh to load is empy. Please specify a valid path.");
     return false;
   }
 
   pcl::PolygonMesh mesh_from_file;
-  pcl::io::loadPolygonFilePLY (mesh_to_load_file_path_ + mesh_to_load_file_name_, mesh_from_file);
+  pcl::io::loadPolygonFilePLY(mesh_to_load_file_path_ + mesh_to_load_file_name_,
+                              mesh_from_file);
 
   if (mesh_from_file.polygons.empty()) {
     ROS_ERROR("Mesh read from file is empty!");
     return false;
   }
 
-  bool mesh_converted = meshToGridMap(mesh_from_file, frame_id_mesh_loaded_, ros::Time::now().toNSec());
+  bool mesh_converted = meshToGridMap(mesh_from_file, frame_id_mesh_loaded_,
+                                      ros::Time::now().toNSec());
   if (!mesh_converted) {
     ROS_ERROR("It was not possible to convert loaded mesh to grid_map object.");
     return false;
   }
 
   if (verbose_) {
-    ROS_INFO_STREAM(
-        "Loaded the mesh from file: " << path_to_mesh_to_load);
+    ROS_INFO_STREAM("Loaded the mesh from file: " << path_to_mesh_to_load);
   }
 
   return true;
