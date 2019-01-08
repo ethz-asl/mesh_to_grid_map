@@ -59,7 +59,7 @@ void MeshToGridMapConverter::getParametersFromRos() {
                     latch_grid_map_pub_);
   nh_private_.param("save_to_rosbag_on_publish", save_to_rosbag_on_publish_,
                     save_to_rosbag_on_publish_);
-  nh_private_.param("rosbag_filepath", rosbag_file_path_, rosbag_file_path_);
+  nh_private_.param("rosbag_file_path", rosbag_file_path_, rosbag_file_path_);
   nh_private_.param("rosbag_topic_name", rosbag_topic_name_,
                     rosbag_topic_name_);
   nh_private_.param("verbose", verbose_, verbose_);
