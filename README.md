@@ -16,14 +16,14 @@ A node which converts meshes to grid maps and publishes them.
 
 To build from source, clone the latest version from this repository and its dependecies into your catkin workspace and compile the package using
 ```
-	cd ~/catkin_ws/src
-  git clone git@github.com:ethz-asl/mesh_to_grid_map.git
-	git clone git@github.com:ANYbotics/grid_map.git
-  git clone git@github.com:ethz-asl/pcl_catkin.git
-  cd pcl_catkin
-  git submodule update --init --recursive
-	cd  ~/catkin_ws/
-	catkin build mesh_to_grid_map
+cd ~/catkin_ws/src
+git clone git@github.com:ethz-asl/mesh_to_grid_map.git
+git clone git@github.com:ANYbotics/grid_map.git
+git clone git@github.com:ethz-asl/pcl_catkin.git
+cd pcl_catkin
+git submodule update --init --recursive
+cd  ~/catkin_ws/
+catkin build mesh_to_grid_map
 ```
 
 ## Usage
