@@ -31,6 +31,6 @@ catkin build mesh_to_grid_map
 
         roslaunch mesh_to_grid_map mesh_to_grid_map_test.launch
 
-* *[mesh_to_grid_map_load_test.launch](launch/mesh_to_grid_map_load_test.launch)* demonstrates a simple example for using the mesh_to_grid_map ROS node. This ROS node loads an existing mesh from file and converts it to a grid_map map.
+* *[mesh_to_grid_map_load_test.launch](launch/mesh_to_grid_map_load_test.launch)* demonstrates a simple example for using the mesh_to_grid_map ROS node. This ROS node loads an existing mesh from file and converts it to a grid_map map (for rviz visualization remember to set the fixed frame to whatever is specified by the parameter `frame_id_mesh_loaded` in the launch file).
 
         roslaunch mesh_to_grid_map mesh_to_grid_map_load_test.launch
