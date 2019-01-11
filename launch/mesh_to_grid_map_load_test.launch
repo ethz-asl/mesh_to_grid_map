@@ -7,8 +7,9 @@
    <arg name="grid_map_layer_name"      default="elevation"/>
    <arg name="latch_grid_map_pub"       default="true"/>
    <arg name="load_mesh_on_startup"     default="true"/>
-   <arg name="mesh_to_load_file_path"   default="/home/marcot/bags/mesh_to_grid_map/"/>
-   <arg name="mesh_to_load_file_name"   default="large_hall_hagerbach_noceil.ply"/>
+   <arg name="mesh_to_load_file_path"   default="$(find mesh_to_grid_map)/mesh_examples/"/>
+   <arg name="mesh_to_load_file_name"   default="hoenggerberg.ply"/>
+   <arg name="frame_id_mesh_loaded"     value="map"/>
 
     <!-- ===== Conversion to Gridmap =================================== -->
    <node name="mesh_to_grid_map_node" pkg="mesh_to_grid_map" type="mesh_to_grid_map_node" output="screen" >
@@ -18,6 +19,10 @@
      <param name="load_mesh_on_startup"     value="$(arg load_mesh_on_startup)" />
      <param name="mesh_to_load_file_path"   value="$(arg mesh_to_load_file_path)" />
      <param name="mesh_to_load_file_name"   value="$(arg mesh_to_load_file_name)" />
+     <param name="frame_id_mesh_loaded"     value="$(arg frame_id_mesh_loaded)" />
+     <param name="verbose"                  value="true" />
+     <param name="rosbag_file_path"         value="$(find mesh_to_grid_map)/grid_map_results/$(anon hoenggerberg).bag" />
+     <param name="rosbag_topic_name"        value="elevation_map" />
    </node>
 
   </launch>
