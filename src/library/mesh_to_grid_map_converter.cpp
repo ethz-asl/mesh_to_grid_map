@@ -148,12 +148,12 @@ bool MeshToGridMapConverter::saveGridMap(const grid_map::GridMap& map,
   return true;
 }
 
-bool MeshToGridMapConverter::loadMeshService(grid_map_msgs::ProcessFile::Request& req,
-                                             grid_map_msgs::ProcessFile::Response& res) {
-  if (!req.topic_name.empty()) {
+bool MeshToGridMapConverter::loadMeshService(grid_map_msgs::ProcessFile::Request &request,
+                                             grid_map_msgs::ProcessFile::Response &response) {
+  if (!request.topic_name.empty()) {
     ROS_WARN("Field 'topic_name' in service request will not be used.");
   }
-  res.success = static_cast<unsigned char>(loadMeshFromFile(req.file_path));
+  response.success = static_cast<unsigned char>(loadMeshFromFile(request.file_path));
   return true;
 }
 
