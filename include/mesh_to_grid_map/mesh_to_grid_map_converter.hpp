@@ -18,11 +18,7 @@ namespace mesh_to_grid_map {
 constexpr double kDefaultGridMapResolution = 0.05;
 static const std::string kDefaultLayerName = "elevation";
 constexpr bool kDefaultLatchGridMapPub = true;
-constexpr bool kDefaultSaveToRosBagOnPublish = false;
-static const std::string kDefaultRosbagTopicName = "grid_map";
 constexpr bool kDefaultVerbose = false;
-constexpr bool kDefaultLoadMeshOnStartup = false;
-static const std::string kDefaultMeshToLoadFileNamePLY = "mesh.ply";
 static const std::string kDefaultFrameIdMeshLoaded = "map";
 
 class MeshToGridMapConverter {
@@ -40,11 +36,8 @@ class MeshToGridMapConverter {
   void meshCallback(const pcl_msgs::PolygonMesh& mesh);
 
   // Save callback
-  bool saveGridMapCallback(std_srvs::Empty::Request& request,
-                           std_srvs::Empty::Response& response);
-
-  // Load mesh on startup
-  bool loadMeshOnStartup();
+  bool saveGridMapService(grid_map_msgs::ProcessFile::Request& request,
+                          grid_map_msgs::ProcessFile::Response& response);
 
   // Load mesh, service call
   bool loadMeshService(grid_map_msgs::ProcessFile::Request& req,
@@ -59,7 +52,9 @@ class MeshToGridMapConverter {
                      const uint64_t& time_stamp_nano_seconds);
 
   // Saves the grid map
-  bool saveGridmap(const grid_map::GridMap& map);
+  bool saveGridMap(const grid_map::GridMap& map,
+                   const std::string& path_to_file,
+                   const std::string& topic_name);
 
   // Node Handles
   ros::NodeHandle nh_;
@@ -85,16 +80,8 @@ class MeshToGridMapConverter {
   bool latch_grid_map_pub_;
   bool verbose_;
 
-  // Saving parameters
-  bool save_to_rosbag_on_publish_;
-  std::string rosbag_file_path_;
-  std::string rosbag_topic_name_;
-
   // Load mesh parameters
   ros::ServiceServer load_map_service_server_;
-  bool load_mesh_on_startup_;
-  std::string mesh_to_load_file_path_;
-  std::string mesh_to_load_file_name_;
   std::string frame_id_mesh_loaded_;
 };
 
