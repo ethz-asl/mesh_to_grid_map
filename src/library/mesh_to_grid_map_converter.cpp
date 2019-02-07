@@ -75,8 +75,7 @@ bool MeshToGridMapConverter::meshToGridMap(
   grid_map::GridMap map;
   map.setFrameId(mesh_frame_id);
 
-  // Creating the converter
-  grid_map::GridMapPclConverter grid_map_pcl_converter;
+  // Converting
   grid_map::GridMapPclConverter::initializeFromPolygonMesh(polygon_mesh,
       grid_map_resolution_, map);
   const std::string layer_name(layer_name_);
@@ -132,7 +131,6 @@ bool MeshToGridMapConverter::saveGridMap(const grid_map::GridMap& map,
   }
   // Saving the map
   if (!path_to_file.empty()) {
-    grid_map::GridMapRosConverter grid_map_ros_converter;
     if (verbose_) {
       ROS_INFO(
           "Saved the grid map message to file: '%s', with topic name: '%s'.",
@@ -148,8 +146,8 @@ bool MeshToGridMapConverter::saveGridMap(const grid_map::GridMap& map,
   return true;
 }
 
-bool MeshToGridMapConverter::loadMeshService(grid_map_msgs::ProcessFile::Request &request,
-                                             grid_map_msgs::ProcessFile::Response &response) {
+bool MeshToGridMapConverter::loadMeshService(grid_map_msgs::ProcessFile::Request& request,
+                                             grid_map_msgs::ProcessFile::Response& response) {
   if (!request.topic_name.empty()) {
     ROS_WARN("Field 'topic_name' in service request will not be used.");
   }

@@ -40,8 +40,8 @@ class MeshToGridMapConverter {
                           grid_map_msgs::ProcessFile::Response& response);
 
   // Load mesh, service call
-  bool loadMeshService(grid_map_msgs::ProcessFile::Request &request,
-                       grid_map_msgs::ProcessFile::Response &response);
+  bool loadMeshService(grid_map_msgs::ProcessFile::Request& request,
+                       grid_map_msgs::ProcessFile::Response& response);
 
   // Load mesh from file
   bool loadMeshFromFile(const std::string& path_to_mesh_to_load);
