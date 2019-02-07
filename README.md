@@ -31,6 +31,30 @@ catkin build mesh_to_grid_map
 
         roslaunch mesh_to_grid_map mesh_to_grid_map_test.launch
 
-* *[mesh_to_grid_map_load_test.launch](launch/mesh_to_grid_map_load_test.launch)* demonstrates a simple example for using the mesh_to_grid_map ROS node. This ROS node loads an existing mesh from file and converts it to a grid_map map (for rviz visualization remember to set the fixed frame to whatever is specified by the parameter `frame_id_mesh_loaded` in the launch file).
+#### Subscribed Topics
 
-        roslaunch mesh_to_grid_map mesh_to_grid_map_load_test.launch
+* **`mesh`** ([pcl_msgs/PolygonMesh](http://docs.ros.org/melodic/api/pcl_msgs/html/msg/PolygonMesh.html))
+
+    The input mesh to convert to grid map.
+
+
+#### Published Topics
+
+* **`grid_map`** ([grid_map_msg/GridMap(https://github.com/ANYbotics/grid_map/blob/master/grid_map_msgs/msg/GridMap.msg)))
+
+    The converted grid map, obtained from the input mesh.
+
+
+#### Services
+
+* **`load_mesh_from_file`** ([grid_map_srvs/ProcessFile](https://github.com/ANYbotics/grid_map/blob/master/grid_map_msgs/srv/ProcessFile.srv))
+
+    Trigger the loading of an input mesh from a .ply file.
+
+        rosservice call /mesh_to_grid_map_node/load_mesh_from_file "file_path: '/home/user/bags/mesh_file.ply' topic_name: ''"
+
+* **`save_grid_map_to_file`** ([grid_map_srvs/ProcessFile](https://github.com/ANYbotics/grid_map/blob/master/grid_map_msgs/srv/ProcessFile.srv))
+
+    Trigger the saving of the current grid map to a rosbag file.
+
+        rosservice call /mesh_to_grid_map_node/save_grid_map_to_file "file_path: '/home/user/bags/grid_map.bag' topic_name: 'grid_map'"
